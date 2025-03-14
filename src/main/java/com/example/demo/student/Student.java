@@ -1,5 +1,6 @@
 package  com.example.demo.student;
 import java.time.LocalDate;
+import java.time.Period;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table
@@ -24,15 +26,15 @@ public class Student {
     private long id;
     private String name;
     private LocalDate dob;
+    @Transient
     private Integer age;
     private String email;
 
     // Construtor com todos os argumentos
-    public Student(long id, String name, LocalDate dob, Integer age, String email) {
+    public Student(long id, String name, LocalDate dob, String email) {
         this.id = id;
         this.name = name;
         this.dob = dob;
-        this.age = age;
         this.email = email;
     }
 
@@ -40,11 +42,11 @@ public class Student {
     public Student() {}
 
     // Construtor com todos os argumentos, exceto o email
-    public Student(String name, LocalDate dob, Integer age, String email) {
+    public Student(String name, LocalDate dob,String email) {
         
         this.name = name;
         this.dob = dob;
-        this.age = age;
+        
         this.email = email;
     }
 
@@ -74,7 +76,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
